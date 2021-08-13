@@ -17,6 +17,9 @@
 
 package systems.microservice.loghub.api.service.v1.service.entity;
 
+import systems.microservice.loghub.sdk.http.HttpClient;
+import systems.microservice.loghub.sdk.util.Argument;
+
 import java.io.Serializable;
 
 /**
@@ -25,4 +28,16 @@ import java.io.Serializable;
  */
 public class EnvironmentService implements Serializable {
     private static final long serialVersionUID = 1L;
+
+    protected final HttpClient client;
+
+    public EnvironmentService(HttpClient client) {
+        Argument.notNull("client", client);
+
+        this.client = client;
+    }
+
+    public HttpClient getClient() {
+        return client;
+    }
 }
