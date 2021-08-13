@@ -25,7 +25,7 @@ import java.io.Serializable;
  * @author Dmitry Kotlyarov
  * @since 1.0
  */
-public class EnvironmentPageDTO implements Serializable {
+public class EnvironmentPage implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public Environment environment;
