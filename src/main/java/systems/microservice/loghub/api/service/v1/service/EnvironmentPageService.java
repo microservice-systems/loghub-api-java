@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package systems.microservice.loghub.api.service.v1.service.page;
+package systems.microservice.loghub.api.service.v1.service;
 
 import java.io.Serializable;
 

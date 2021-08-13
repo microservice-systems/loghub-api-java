@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package systems.microservice.loghub.api.service.v1.model.entity;
+package systems.microservice.loghub.api.service.v1.model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;

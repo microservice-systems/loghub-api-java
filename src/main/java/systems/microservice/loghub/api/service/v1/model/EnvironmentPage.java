@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
-package systems.microservice.loghub.api.service.v1.model.page;
+package systems.microservice.loghub.api.service.v1.model;
 
-import systems.microservice.loghub.api.service.v1.model.entity.Environment;
+import systems.microservice.loghub.api.service.v1.model.Environment;
 
 import java.io.Serializable;
 

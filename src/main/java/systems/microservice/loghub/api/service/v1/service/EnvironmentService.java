@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package systems.microservice.loghub.api.service.v1.service.entity;
+package systems.microservice.loghub.api.service.v1.service;
 
 import systems.microservice.loghub.sdk.http.HttpClient;
 import systems.microservice.loghub.sdk.util.Argument;
