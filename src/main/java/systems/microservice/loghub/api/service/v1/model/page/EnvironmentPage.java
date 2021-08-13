@@ -17,7 +17,7 @@
 
 package systems.microservice.loghub.api.service.v1.model.page;
 
-import systems.microservice.loghub.api.service.v1.model.entity.EnvironmentDTO;
+import systems.microservice.loghub.api.service.v1.model.entity.Environment;
 
 import java.io.Serializable;
 
@@ -28,7 +28,7 @@ import java.io.Serializable;
 public class EnvironmentPageDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    public EnvironmentDTO environment;
+    public Environment environment;
     public long applications;
     public long versions;
     public long revisions;
