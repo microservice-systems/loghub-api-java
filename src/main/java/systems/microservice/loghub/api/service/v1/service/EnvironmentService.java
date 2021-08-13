@@ -17,10 +17,15 @@
 
 package systems.microservice.loghub.api.service.v1.service;
 
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import systems.microservice.loghub.api.service.v1.model.Environment;
 import systems.microservice.loghub.sdk.http.HttpClient;
 import systems.microservice.loghub.sdk.util.Argument;
 
+import java.io.IOException;
 import java.io.Serializable;
+import java.net.HttpURLConnection;
 
 /**
  * @author Dmitry Kotlyarov
@@ -30,14 +35,47 @@ public class EnvironmentService implements Serializable {
     private static final long serialVersionUID = 1L;
 
     protected final HttpClient client;
+    protected final String contentType;
+    protected final ObjectMapper contentMapper;
+    protected final String acceptType;
+    protected final ObjectMapper acceptMapper;
 
     public EnvironmentService(HttpClient client) {
         Argument.notNull("client", client);
 
         this.client = client;
+        this.contentType = "application/json";
+        this.contentMapper = new ObjectMapper(new JsonFactory());
+        this.acceptType = "application/json";
+        this.acceptMapper = new ObjectMapper(new JsonFactory());
     }
 
     public HttpClient getClient() {
         return client;
+    }
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public ObjectMapper getContentMapper() {
+        return contentMapper;
+    }
+
+    public String getAcceptType() {
+        return acceptType;
+    }
+
+    public ObjectMapper getAcceptMapper() {
+        return acceptMapper;
+    }
+
+    public Environment get(String id) {
+        try {
+            HttpURLConnection conn = client.get("loghub/api/service/v1/environment", null, acceptType);
+            return null;
+        } catch (IOException e) {
+            throw new ServiceException(e);
+        }
     }
 }

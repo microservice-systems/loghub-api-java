@@ -17,8 +17,6 @@
 
 package systems.microservice.loghub.api.service.v1.model;
 
-import systems.microservice.loghub.api.service.v1.model.Environment;
-
 import java.io.Serializable;
 
 /**
