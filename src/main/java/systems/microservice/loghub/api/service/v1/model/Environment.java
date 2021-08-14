@@ -30,6 +30,7 @@ import java.io.Serializable;
 public class Environment implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    public final String service;
     public final String id;
     public final long createTime;
     public final String createUser;
@@ -42,7 +43,8 @@ public class Environment implements Serializable {
     public String picture;
 
     @JsonCreator
-    public Environment(@JsonProperty("id") String id,
+    public Environment(@JsonProperty("service") String service,
+                       @JsonProperty("id") String id,
                        @JsonProperty("createTime") long createTime,
                        @JsonProperty("createUser") String createUser,
                        @JsonProperty("updateTime") long updateTime,
@@ -52,12 +54,14 @@ public class Environment implements Serializable {
                        @JsonProperty("company") String company,
                        @JsonProperty("location") String location,
                        @JsonProperty("picture") String picture) {
+        Argument.notNull("service", service);
         Argument.environment("id", id);
         Argument.inRangeLong("createTime", createTime, 0L, Long.MAX_VALUE);
         Argument.user("createUser", createUser);
         Argument.inRangeLong("updateTime", updateTime, 0L, Long.MAX_VALUE);
         Argument.user("updateUser", updateUser);
 
+        this.service = service;
         this.id = id;
         this.createTime = createTime;
         this.createUser = createUser;
