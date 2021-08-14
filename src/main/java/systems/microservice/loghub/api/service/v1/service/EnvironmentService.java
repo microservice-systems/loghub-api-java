@@ -18,12 +18,15 @@
 package systems.microservice.loghub.api.service.v1.service;
 
 import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import systems.microservice.loghub.api.service.v1.model.Environment;
 import systems.microservice.loghub.sdk.http.HttpClient;
 import systems.microservice.loghub.sdk.util.Argument;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.Serializable;
 import java.net.HttpURLConnection;
 
@@ -71,9 +74,28 @@ public class EnvironmentService implements Serializable {
     }
 
     public Environment get(String id) {
+        Argument.notNull("id", id);
+
         try {
-            HttpURLConnection conn = client.get("loghub/api/service/v1/environment", null, acceptType);
-            return null;
+            HttpURLConnection conn = client.get("/loghub/api/service/v1/environment", null, acceptType);
+            try {
+                conn.setRequestProperty("loghub-id", id);
+                conn.connect();
+                try {
+                    int rc = conn.getResponseCode();
+                    if (rc == HttpURLConnection.HTTP_OK) {
+                        try (InputStream in = conn.getInputStream()) {
+                            return acceptMapper.readValue(in, Environment.class);
+                        }
+                    } else {
+                        throw new ServiceException(conn);
+                    }
+                } finally {
+                    conn.disconnect();
+                }
+            } catch (IOException e) {
+                throw new ServiceException(conn, e);
+            }
         } catch (IOException e) {
             throw new ServiceException(e);
         }
