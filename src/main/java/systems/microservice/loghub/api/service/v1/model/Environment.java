@@ -17,8 +17,11 @@
 
 package systems.microservice.loghub.api.service.v1.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import systems.microservice.loghub.sdk.util.Argument;
+
 import java.io.Serializable;
-import java.sql.Timestamp;
 
 /**
  * @author Dmitry Kotlyarov
@@ -27,14 +30,43 @@ import java.sql.Timestamp;
 public class Environment implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    public String id;
-    public Timestamp createTime;
-    public String createUser;
-    public Timestamp updateTime;
+    public final String id;
+    public final long createTime;
+    public final String createUser;
+    public long updateTime;
     public String updateUser;
     public String description;
     public String url;
     public String company;
     public String location;
     public String picture;
+
+    @JsonCreator
+    public Environment(@JsonProperty("id") String id,
+                       @JsonProperty("createTime") long createTime,
+                       @JsonProperty("createUser") String createUser,
+                       @JsonProperty("updateTime") long updateTime,
+                       @JsonProperty("updateUser") String updateUser,
+                       @JsonProperty("description") String description,
+                       @JsonProperty("url") String url,
+                       @JsonProperty("company") String company,
+                       @JsonProperty("location") String location,
+                       @JsonProperty("picture") String picture) {
+        Argument.environment("id", id);
+        Argument.inRangeLong("createTime", createTime, 0L, Long.MAX_VALUE);
+        Argument.user("createUser", createUser);
+        Argument.inRangeLong("updateTime", updateTime, 0L, Long.MAX_VALUE);
+        Argument.user("updateUser", updateUser);
+
+        this.id = id;
+        this.createTime = createTime;
+        this.createUser = createUser;
+        this.updateTime = updateTime;
+        this.updateUser = updateUser;
+        this.description = description;
+        this.url = url;
+        this.company = company;
+        this.location = location;
+        this.picture = picture;
+    }
 }
