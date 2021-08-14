@@ -43,7 +43,7 @@ public class EnvironmentListService implements Serializable {
     protected final ObjectMapper contentMapper;
     protected final String acceptType;
     protected final ObjectMapper acceptMapper;
-    protected final CollectionType acceptEnvironmentListType;
+    protected final CollectionType acceptCollectionType;
 
     public EnvironmentListService(HttpClient client) {
         Argument.notNull("client", client);
@@ -53,7 +53,7 @@ public class EnvironmentListService implements Serializable {
         this.contentMapper = new ObjectMapper(new JsonFactory());
         this.acceptType = "application/json";
         this.acceptMapper = new ObjectMapper(new JsonFactory());
-        this.acceptEnvironmentListType = acceptMapper.getTypeFactory().constructCollectionType(List.class, Environment.class);
+        this.acceptCollectionType = acceptMapper.getTypeFactory().constructCollectionType(List.class, Environment.class);
     }
 
     public HttpClient getClient() {
@@ -76,6 +76,10 @@ public class EnvironmentListService implements Serializable {
         return acceptMapper;
     }
 
+    public CollectionType getAcceptCollectionType() {
+        return acceptCollectionType;
+    }
+
     public List<Environment> get() {
         try {
             HttpURLConnection conn = client.get("/loghub/api/service/v1/environment/list", null, acceptType);
@@ -85,7 +89,7 @@ public class EnvironmentListService implements Serializable {
                     int rc = conn.getResponseCode();
                     if (rc == HttpURLConnection.HTTP_OK) {
                         try (InputStream in = conn.getInputStream()) {
-                            return acceptMapper.readValue(in, acceptEnvironmentListType);
+                            return acceptMapper.readValue(in, acceptCollectionType);
                         }
                     } else {
                         throw new HttpException(conn);
