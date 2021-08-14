@@ -17,6 +17,10 @@
 
 package systems.microservice.loghub.api.service.v1.service;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 /**
  * @author Dmitry Kotlyarov
  * @since 1.0
@@ -24,22 +28,99 @@ package systems.microservice.loghub.api.service.v1.service;
 public class ServiceException extends RuntimeException {
     private static final long serialVersionUID = 1L;
 
-    public ServiceException() {
+    protected final URL url;
+    protected final String method;
+    protected final int code;
+
+    public ServiceException(HttpURLConnection connection) {
+        this(getURL(connection), getMethod(connection), getCode(connection));
+    }
+
+    public ServiceException(HttpURLConnection connection, Throwable cause) {
+        this(getURL(connection), getMethod(connection), getCode(connection), cause);
+    }
+
+    public ServiceException(URL url, String method, int code) {
+        super(String.format("[%s][%d]: %s", getString(method), code, getExternalForm(url)));
+
+        this.url = url;
+        this.method = method;
+        this.code = code;
+    }
+
+    public ServiceException(URL url, String method, int code, Throwable cause) {
+        super(String.format("[%s][%d]: %s", getString(method), code, getExternalForm(url)), cause);
+
+        this.url = url;
+        this.method = method;
+        this.code = code;
     }
 
     public ServiceException(String message) {
         super(message);
+
+        this.url = null;
+        this.method = null;
+        this.code = -1;
     }
 
     public ServiceException(String message, Throwable cause) {
         super(message, cause);
+
+        this.url = null;
+        this.method = null;
+        this.code = -1;
     }
 
     public ServiceException(Throwable cause) {
         super(cause);
+
+        this.url = null;
+        this.method = null;
+        this.code = -1;
     }
 
     public ServiceException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
+
+        this.url = null;
+        this.method = null;
+        this.code = -1;
+    }
+
+    public URL getURL() {
+        return url;
+    }
+
+    public String getMethod() {
+        return method;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    protected static URL getURL(HttpURLConnection connection) {
+        return (connection != null) ? connection.getURL() : null;
+    }
+
+    protected static String getMethod(HttpURLConnection connection) {
+        return (connection != null) ? connection.getRequestMethod() : null;
+    }
+
+    protected static int getCode(HttpURLConnection connection) {
+        try {
+            return (connection != null) ? connection.getResponseCode() : -1;
+        } catch (IOException e) {
+            return -1;
+        }
+    }
+
+    protected static String getExternalForm(URL url) {
+        return (url != null) ? url.toExternalForm() : "null";
+    }
+
+    protected static String getString(String value) {
+        return (value != null) ? value : "null";
     }
 }
