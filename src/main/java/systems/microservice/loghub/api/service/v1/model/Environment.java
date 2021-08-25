@@ -54,7 +54,7 @@ public class Environment implements Serializable {
                        @JsonProperty("company") String company,
                        @JsonProperty("location") String location,
                        @JsonProperty("picture") String picture) {
-        Argument.notNull("service", service);
+        Argument.service("service", service);
         Argument.environment("id", id);
         Argument.inRangeLong("createTime", createTime, 0L, Long.MAX_VALUE);
         Argument.user("createUser", createUser);

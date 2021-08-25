@@ -56,13 +56,13 @@ public class Application implements Serializable {
                        @JsonProperty("company") String company,
                        @JsonProperty("repository") String repository,
                        @JsonProperty("picture") String picture) {
-        Argument.notNull("service", service);
+        Argument.service("service", service);
         Argument.environment("environment", environment);
         Argument.application("id", id);
         Argument.inRangeLong("createTime", createTime, 0L, Long.MAX_VALUE);
-        Argument.user("createUser", createUser);
+        Argument.userNullable("createUser", createUser);
         Argument.inRangeLong("updateTime", updateTime, 0L, Long.MAX_VALUE);
-        Argument.user("updateUser", updateUser);
+        Argument.userNullable("updateUser", updateUser);
 
         this.service = service;
         this.environment = environment;

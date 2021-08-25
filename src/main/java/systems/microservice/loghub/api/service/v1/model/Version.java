@@ -42,7 +42,7 @@ public class Version implements Serializable {
                    @JsonProperty("application") String application,
                    @JsonProperty("id") String id,
                    @JsonProperty("createTime") long createTime) {
-        Argument.notNull("service", service);
+        Argument.service("service", service);
         Argument.environment("environment", environment);
         Argument.application("application", application);
         Argument.version("id", id);

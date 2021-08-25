@@ -33,6 +33,7 @@ public class Revision implements Serializable {
     public final String service;
     public final String environment;
     public final String application;
+    public final String version;
     public final String id;
     public final long createTime;
 
@@ -40,17 +41,20 @@ public class Revision implements Serializable {
     public Revision(@JsonProperty("service") String service,
                     @JsonProperty("environment") String environment,
                     @JsonProperty("application") String application,
+                    @JsonProperty("version") String version,
                     @JsonProperty("id") String id,
                     @JsonProperty("createTime") long createTime) {
-        Argument.notNull("service", service);
+        Argument.service("service", service);
         Argument.environment("environment", environment);
         Argument.application("application", application);
-        Argument.version("id", id);
+        Argument.version("version", version);
+        Argument.revision("id", id);
         Argument.inRangeLong("createTime", createTime, 0L, Long.MAX_VALUE);
 
         this.service = service;
         this.environment = environment;
         this.application = application;
+        this.version = version;
         this.id = id;
         this.createTime = createTime;
     }
