@@ -94,6 +94,14 @@ public class Process implements Serializable {
         Argument.inRangeLong("createTime", createTime, 0L, Long.MAX_VALUE);
         Argument.inRangeLong("start", start, 0L, Long.MAX_VALUE);
         Argument.inRangeLong("finish", finish, -1L, Long.MAX_VALUE);
+        Argument.inRangeInt("cpuCount", cpuCount, 0, Integer.MAX_VALUE);
+        Argument.notNull("osArch", osArch);
+        Argument.notNull("osName", osName);
+        Argument.notNull("osVersion", osVersion);
+        Argument.notNull("variables", variables);
+        Argument.notNull("properties", properties);
+        Argument.notNull("hostName", hostName);
+        Argument.notNull("hostIP", hostIP);
 
         this.service = service;
         this.environment = environment;
