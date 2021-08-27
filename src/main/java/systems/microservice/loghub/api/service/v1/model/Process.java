@@ -19,6 +19,7 @@ package systems.microservice.loghub.api.service.v1.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import systems.microservice.loghub.sdk.util.Argument;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -42,8 +43,12 @@ public class Process implements Serializable {
     public final long id;
     public final long start;
     public long finish;
-    public Map<String, String> variables;
-    public Map<String, String> properties;
+    public int cpuCount;
+    public String osArch;
+    public String osName;
+    public String osVersion;
+    public String variables;
+    public String properties;
     public String cmdline;
     public String io;
     public String limits;
@@ -52,37 +57,44 @@ public class Process implements Serializable {
     public String netProtocols;
     public String hostName;
     public String hostIP;
-    public final int cpuCount;
-    public final String osArch;
-    public final String osName;
-    public final String osVersion;
 
     @JsonCreator
-    public Process(String service,
-                   String environment,
-                   String application,
-                   String version,
-                   String revision,
-                   String instance,
-                   UUID uuid,
-                   long createTime,
-                   long id,
-                   long start,
-                   long finish,
-                   Map<String, String> variables,
-                   Map<String, String> properties,
-                   String cmdline,
-                   String io,
-                   String limits,
-                   String mounts,
-                   String netDev,
-                   String netProtocols,
-                   String hostName,
-                   String hostIP,
-                   int cpuCount,
-                   String osArch,
-                   String osName,
-                   String osVersion) {
+    public Process(@JsonProperty("service") String service,
+                   @JsonProperty("environment") String environment,
+                   @JsonProperty("application") String application,
+                   @JsonProperty("version") String version,
+                   @JsonProperty("revision") String revision,
+                   @JsonProperty("instance") String instance,
+                   @JsonProperty("uuid") UUID uuid,
+                   @JsonProperty("createTime") long createTime,
+                   @JsonProperty("id") long id,
+                   @JsonProperty("start") long start,
+                   @JsonProperty("finish") long finish,
+                   @JsonProperty("cpuCount") int cpuCount,
+                   @JsonProperty("osArch") String osArch,
+                   @JsonProperty("osName") String osName,
+                   @JsonProperty("osVersion") String osVersion,
+                   @JsonProperty("variables") String variables,
+                   @JsonProperty("properties") String properties,
+                   @JsonProperty("cmdline") String cmdline,
+                   @JsonProperty("io") String io,
+                   @JsonProperty("limits") String limits,
+                   @JsonProperty("mounts") String mounts,
+                   @JsonProperty("netDev") String netDev,
+                   @JsonProperty("netProtocols") String netProtocols,
+                   @JsonProperty("hostName") String hostName,
+                   @JsonProperty("hostIP") String hostIP) {
+        Argument.service("service", service);
+        Argument.environment("environment", environment);
+        Argument.application("application", application);
+        Argument.version("version", version);
+        Argument.revision("revision", revision);
+        Argument.instance("instance", instance);
+        Argument.notNull("uuid", uuid);
+        Argument.inRangeLong("createTime", createTime, 0L, Long.MAX_VALUE);
+        Argument.inRangeLong("start", start, 0L, Long.MAX_VALUE);
+        Argument.inRangeLong("finish", finish, -1L, Long.MAX_VALUE);
+
         this.service = service;
         this.environment = environment;
         this.application = application;
@@ -94,6 +106,10 @@ public class Process implements Serializable {
         this.id = id;
         this.start = start;
         this.finish = finish;
+        this.cpuCount = cpuCount;
+        this.osArch = osArch;
+        this.osName = osName;
+        this.osVersion = osVersion;
         this.variables = variables;
         this.properties = properties;
         this.cmdline = cmdline;
@@ -104,9 +120,5 @@ public class Process implements Serializable {
         this.netProtocols = netProtocols;
         this.hostName = hostName;
         this.hostIP = hostIP;
-        this.cpuCount = cpuCount;
-        this.osArch = osArch;
-        this.osName = osName;
-        this.osVersion = osVersion;
     }
 }
